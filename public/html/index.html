@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Upload files with Node.js, Express, Ajax & JQuery</title>
+		<meta charset="utf-8">
+		<meta name="author" content="Frames75">
+	</head>
+	<body>
+		<H1>Upload files in Node.js with AJAX & Express 4.x</H1><br>
+
+		<form method='POST' action='upload' enctype='multipart/form-data'>
+			<input type='file' id='up_files' name='up_files' multiple required><br><br>
+			<input type='button' value='Upload Files' id='butt_upload' width='10%'>
+		</form><br>
+		<p>Show first 3 images uploaded (.png, .jpg or .gif): </p>
+		<img id='uploaded_image0' width='100px'></td><td>
+		<img id='uploaded_image1' width='100px'></td><td>
+		<img id='uploaded_image2' width='100px'></td><td>
+
+		<!-- jQuery CDN - Full version needed (=with AJAX) -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+
+	  <script type='text/javascript'>
+
+	    $(document).ready(function(){
+	      $('#butt_upload').click(function(){
+
+	        const files = $('#up_files')[0].files;
+	        if (files.length === 0) {
+	        	alert('No file is selected!');
+	        	return;
+	        }
+
+	        const post_url = $(this).parents('form').attr('action'); 
+	        const request_method = $(this).parents('form').attr('method'); 
+
+	        let form_data = new FormData();
+			for(let i=0; i < files.length; i++) 
+		        form_data.append('up_files',files[i]);
+
+	        $.ajax({
+	          url: post_url,
+	          type: request_method,
+	          data: form_data,
+	          contentType: false,
+	          processData: false,
+	          success: function(response){
+                if(response != 0){
+              	  let img_dom = '#uploaded_image';
+              	  // Clear <img>'s
+              	  for(let i=0; i<3 ; i++) 
+	              	$(img_dom + i.toString()).attr('src','');
+	              // Fill in <img>'s
+              	  for(let i=0; i<response.length && i<3 ; i++) 
+	              	$(img_dom + i.toString()).attr('src',response[i].path);
+                } else
+                  alert('Error: File not uploaded');
+	          },
+	        });
+	      });
+	    });		
+	  </script>
+	</body>
+</html>
