@@ -1,5 +1,5 @@
 # upload-files-express-ajax
-## Example - Upload files using NodeJS, Express 4.x and JQuery with AJAX
+## Example - Upload files using Node.js, Express 4.x and JQuery with AJAX
 
 You can upload several files in a row, selecting all of them from the window opened by clicking the *Select files* button. After select them, you need to click the *Upload Files*.
 
